@@ -20,7 +20,6 @@
             overflow: hidden;
         }
 
-        /* Налаштування картки ДЛЯ КОМП'ЮТЕРІВ (вгорі праворуч) */
         .main-card {
             position: absolute;
             top: 40px;     
@@ -54,6 +53,7 @@
             width: 100%;
         }
 
+        /* Загальний стиль для всіх кнопок */
         .btn {
             display: block;
             color: white;
@@ -112,20 +112,19 @@
             box-shadow: 0 6px 20px rgba(230, 126, 34, 0.6);
         }
 
-        /* 📱 АВТОМАТИЧНЕ НАЛАШТУВАННЯ ДЛЯ ТЕЛЕФОНІВ (Екрани менше 768 пікселів) */
         @media (max-width: 768px) {
             .main-card {
-                top: auto;      /* Відключаємо верхній відступ */
-                right: auto;    /* Відключаємо правий відступ */
-                bottom: 30px;   /* Притискаємо картку до самого низу екрана телефону */
-                left: 50%;      /* Центруємо картку по ширині екрана */
-                transform: translateX(-50%); /* Точне центрування */
+                top: auto;      
+                right: auto;    
+                bottom: 30px;   
+                left: 50%;
+                transform: translateX(-50%); 
                 padding: 25px 20px;
                 max-width: 340px;
                 width: 90%;
             }
             .question-text {
-                font-size: 22px; /* Трохи зменшуємо текст, щоб вміщався на телефонах */
+                font-size: 22px; 
                 margin-bottom: 15px;
             }
         }
@@ -136,9 +135,16 @@
     <div class="main-card">
         <h1 class="question-text">Нащо ти тут?</h1>
         <div class="buttons-group">
-            <a href="https://instagram.com" target="_blank" class="btn btn-red">Познайомитись</a>
+            <!-- 1. Познайомитись (Вставив саме ваше точне посилання) -->
+            <a href="https://www.instagram.com/yeuhen.y?igsh=YWxkcGZjYWU4ZWFu" target="_blank" class="btn btn-red">Познайомитись</a>
+            
+            <!-- 2. Маєш претензії? -->
             <a href="https://npu.gov.ua" target="_blank" class="btn btn-blue">Маєш претензії?</a>
-            <a href="https://monobank.ua" target="_blank" class="btn btn-green">Допомога бідним</a>
+
+            <!-- 3. Допомога бідним (Веде на storinka3.html з фото banka.jpg) -->
+            <a href="./storinka3.html" class="btn btn-green">Допомога бідним</a>
+            
+            <!-- 4. Я Ярик -->
             <a href="./storinka2.html" class="btn btn-lgbt">Я Ярик</a>
         </div>
     </div>
