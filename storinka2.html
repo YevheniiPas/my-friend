@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Нюдси Ярика</title>
+    <style>
+        body {
+            background-color: #111111;
+            color: white;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            font-size: 32px;
+            letter-spacing: 1px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            max-width: 900px;
+            width: 100%;
+            margin-bottom: 40px;
+        }
+
+        .gallery-item {
+            overflow: hidden;
+            border-radius: 16px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .btn-back {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff4757, #ff6b81);
+            color: white;
+            padding: 14px 30px;
+            text-decoration: none;
+            border-radius: 16px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(255, 71, 87, 0.35);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Нова назва папки/сторінки за вашим проханням -->
+    <h1>Нюдси 😎</h1>
+
+    <div class="gallery-grid">
+        <div class="gallery-item"><img src="yarik1.jpg" alt="Ярик 1"></div>
+        <div class="gallery-item"><img src="yarik2.jpg" alt="Ярик 2"></div>
+        <div class="gallery-item"><img src="yarik3.jpg" alt="Ярик 3"></div>
+        <div class="gallery-item"><img src="yarik4.jpg" alt="Ярик 4"></div>
+    </div>
+
+    <a href="./index.html" class="btn-back">← На головну</a>
+
+</body>
+</html>
