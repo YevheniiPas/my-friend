@@ -2,186 +2,240 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Сайт для друга</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-select=no">
+    <title>Центр Керування Женькою 🚀</title>
     <style>
         body {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url('hmara.jpg'); 
-            background-size: 100% 100%;   
-            background-position: center;   
-            background-attachment: fixed;
-            background-repeat: no-repeat;
-            background-color: #111111; 
-            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #0b0b0b;
             margin: 0;
             padding: 0;
-            position: relative; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
             height: 100vh;
             overflow: hidden;
+            font-family: 'Segoe UI', Arial, sans-serif;
         }
 
-        /* ✨ ТА САМА КАРТКА З ОШЕЛОМЛЯЮЧИМ ЕФЕКТОМ РОЗМИТТЯ ТЛА */
-        .main-card {
+        .shaking-bg {
             position: absolute;
-            top: 40px;     
-            right: 40px;   
-            background: rgba(15, 15, 20, 0.45); /* Напівпрозорий темний колір */
-            border: 1px solid rgba(255, 255, 255, 0.2); 
-            border-radius: 24px; 
+            top: -10%; left: -10%; width: 120%; height: 120%;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url('hmara.jpg'); 
+            background-size: cover;   
+            background-position: center 20%;   
+            background-repeat: no-repeat;
+            z-index: 1;
+            transition: transform 0.12s ease-out; 
+            will-change: transform;
+        }
+
+        .main-card {
+            background: rgba(15, 15, 20, 0.55); 
+            border: 1px solid rgba(255, 255, 255, 0.15); 
+            border-radius: 28px; 
             padding: 35px 25px; 
             text-align: center;
-            max-width: 300px;  
-            width: 85%;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6); 
-            
-            /* 🔮 Головна магія розмиття скла (Backdrop Filter) */
-            backdrop-filter: blur(18px); 
-            -webkit-backdrop-filter: blur(18px);
+            max-width: 320px;  
+            width: 90%;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7); 
+            backdrop-filter: blur(15px); 
+            -webkit-backdrop-filter: blur(15px);
             z-index: 10;
+            position: absolute;
+            bottom: 30px; 
         }
 
         .question-text {
             color: #ffffff; 
-            font-size: 24px; 
+            font-size: 22px; 
             font-weight: 800;
             margin: 0 0 25px 0;
             letter-spacing: 0.5px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.4);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
         }
 
         .buttons-group {
             display: flex;
             flex-direction: column;
-            gap: 12px; 
+            gap: 14px; 
             width: 100%;
         }
 
-        /* ✨ СКЛЯНІ НЕОНОВІ КНОПКИ З ЕФЕКТОМ РОЗПЛИВАННЯ ТА БЛІКАМИ */
         .btn {
             display: block;
             color: white;
             padding: 13px 20px; 
             text-decoration: none; 
             border-radius: 14px; 
-            font-size: 14px; 
+            font-size: 13px; 
             font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
             box-sizing: border-box;
             width: 100%;
-            position: relative;
-            overflow: hidden;
-            background: rgba(255, 255, 255, 0.05);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: transparent; 
+            transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+            cursor: pointer;
         }
 
-        .btn:hover {
-            transform: translateY(-3px) scale(1.02);
-        }
-
-        /* Білий глянцевий спалах-блік всередині кнопки */
-        .btn::after {
-            content: '';
-            position: absolute;
-            top: 0; left: -150%;
-            width: 50%; height: 100%;
-            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.35) 50%, rgba(255,255,255,0) 100%);
-            transform: skewX(-25deg);
-        }
-        .btn:hover::after {
-            left: 150%;
-            transition: all 0.6s ease-in-out;
-        }
-
-        /* 🔴 1. Червоний неоновий розмив (Познайомитись) */
         .btn-red {
-            border: 1px solid #ff4757;
-            box-shadow: 0 0 10px rgba(255, 71, 87, 0.2);
+            border: 2px solid #ff1f35;
+            box-shadow: 0 0 10px rgba(255, 31, 53, 0.35);
         }
-        .btn-red:hover {
-            background: #ff4757;
-            box-shadow: 0 0 25px rgba(255, 71, 87, 0.7);
+        .btn-red:active {
+            background: #ff1f35;
+            box-shadow: 0 0 25px #ff1f35, inset 0 0 10px rgba(255,255,255,0.3);
         }
 
-        /* 🔵 2. Синій неоновий розмив (Маєш претензії?) */
         .btn-blue {
-            border: 1px solid #0055ff;
-            box-shadow: 0 0 10px rgba(0, 85, 255, 0.2);
+            border: 2px solid #0055ff;
+            box-shadow: 0 0 10px rgba(0, 85, 255, 0.35);
         }
-        .btn-blue:hover {
+        .btn-blue:active {
             background: #0055ff;
-            box-shadow: 0 0 25px rgba(0, 85, 255, 0.7);
+            box-shadow: 0 0 25px #0055ff, inset 0 0 10px rgba(255,255,255,0.3);
         }
 
-        /* 🟢 3. Зелений неоновий розмив (Допомога бідним) */
         .btn-green {
-            border: 1px solid #2ecc71;
-            box-shadow: 0 0 10px rgba(46, 204, 113, 0.2);
+            border: 2px solid #2ecc71;
+            box-shadow: 0 0 10px rgba(46, 204, 113, 0.35);
         }
-        .btn-green:hover {
+        .btn-green:active {
             background: #2ecc71;
-            box-shadow: 0 0 25px rgba(46, 204, 113, 0.7);
+            box-shadow: 0 0 25px #2ecc71, inset 0 0 10px rgba(255,255,255,0.3);
         }
 
-        /* 🌈 4. Веселковий неоновий розмив (Я Ярик) */
         .btn-lgbt {
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: linear-gradient(90deg, rgba(231, 76, 60, 0.15), rgba(230, 126, 34, 0.15), rgba(241, 196, 114, 0.15), rgba(46, 204, 113, 0.15));
-            box-shadow: 0 0 10px rgba(230, 126, 34, 0.2);
+            border: 2px solid #e67e22;
+            box-shadow: 0 0 10px rgba(230, 126, 34, 0.35);
         }
-        .btn-lgbt:hover {
-            background: linear-gradient(90deg, #e74c3c, #e67e22, #f1c40f, #2ecc71, #3498db, #9b59b6);
-            box-shadow: 0 0 25px rgba(230, 126, 34, 0.7);
+        .btn-lgbt:active {
+            background: linear-gradient(90deg, #e74c3c, #e67e22, #f1c40f, #2ecc71);
+            box-shadow: 0 0 25px #e67e22;
+            border-color: transparent;
         }
 
-        /* 👾 5. Фіолетовий неоновий розмив (Зіграти в гру) */
         .btn-game {
-            border: 1px solid #b300ff;
-            box-shadow: 0 0 10px rgba(179, 0, 255, 0.2);
+            border: 2px solid #b300ff;
+            box-shadow: 0 0 10px rgba(179, 0, 255, 0.35);
         }
-        .btn-game:hover {
+        .btn-game:active {
             background: #b300ff;
-            box-shadow: 0 0 25px rgba(179, 0, 255, 0.7);
+            box-shadow: 0 0 25px #b300ff, inset 0 0 10px rgba(255,255,255,0.3);
         }
 
-        /* Адаптація під мобільні телефони (картка зсувається вниз і центрується) */
-        @media (max-width: 768px) {
-            .main-card {
-                top: auto;      
-                right: auto;    
-                bottom: 30px;   
-                left: 50%;      
-                transform: translateX(-50%); 
-                padding: 25px 20px;
-                max-width: 300px;
-                width: 90%;
-            }
-            .question-text { font-size: 20px; margin-bottom: 15px; }
-            .btn { padding: 11px 15px; font-size: 13px; }
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 200;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .modal-box {
+            background: #111111;
+            border: 2px solid #2ecc71;
+            border-radius: 20px;
+            padding: 15px;
+            text-align: center;
+            max-width: 90%;
+            box-shadow: 0 0 30px rgba(46, 204, 113, 0.4);
+            position: relative;
+        }
+
+        .modal-image {
+            max-width: 100%;
+            max-height: 65vh;
+            border-radius: 12px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .close-modal-btn {
+            display: block;
+            width: 100%;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 10px;
+            margin-top: 15px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(231, 76, 96, 0.3);
         }
     </style>
 </head>
 <body>
 
+    <div class="shaking-bg" id="shakingBg"></div>
+
     <div class="main-card">
         <h1 class="question-text">Нащо ти тут?</h1>
         <div class="buttons-group">
-            <!-- 1. Твоє точне посилання на Інстаграм -->
-            <a href="https://instagram.com" target="_blank" class="btn btn-red">Познайомитись</a>
+            <!-- 🔴 Червона кнопка тепер викликає розумну функцію переходу -->
+            <button class="btn btn-red" onclick="openInstagram()">Познайомитись</button>
             
-            <!-- 2. Поліція -->
             <a href="https://npu.gov.ua" target="_blank" class="btn btn-blue">Маєш претензії?</a>
-            
-            <!-- 3. Банка банки -->
-            <a href="./storinka3.html" class="btn btn-green">Допомога бідним</a>
-            
-            <!-- 4. Сторінка 2 Ярик -->
+            <button class="btn btn-green" onclick="openBanka()">Допомога бідним</button>
             <a href="./storinka2.html" class="btn btn-lgbt">Я Ярик</a>
-            
-            <!-- 5. Гра -->
             <a href="./gra.html" class="btn btn-game">Зіграти в гру 🕹️</a>
         </div>
     </div>
 
+    <div class="modal-overlay" id="bankaModal">
+        <div class="modal-box">
+            <img src="banka.jpg" class="modal-image" alt="Монобанк">
+            <button class="close-modal-btn" onclick="closeBanka()">Закрити ❌</button>
+        </div>
+    </div>
+
+    <script>
+        const bg = document.getElementById('shakingBg');
+        const modal = document.getElementById('bankaModal');
+
+        // 🔥 НАДІЙНИЙ ПРЯМИЙ ПЕРЕХІД В INSTAGRAM ДЛЯ СМАРТФОНІВ
+        function openInstagram() {
+            // Веб-адреса як резервний варіант
+            const webUrl = "https://instagram.com";
+            // Пряма внутрішня команда для відкриття додатку
+            const appUrl = "instagram://user?username=yeuhen.y";
+            
+            // Спершу намагаємося примусово запустити мобільний додаток
+            window.location.href = appUrl;
+            
+            // Якщо за 400 мілісекунд додаток не відкрився (наприклад, це ПК), відкриваємо звичайну вкладку браузера
+            setTimeout(() => {
+                window.open(webUrl, '_blank');
+            }, 400);
+        }
+
+        function openBanka() { modal.style.display = 'flex'; }
+        function closeBanka() { modal.style.display = 'none'; }
+
+        document.body.addEventListener('click', function requestSensor() {
+            if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+                DeviceOrientationEvent.requestPermission()
+                    .then(response => {
+                        if (response == 'granted') { window.addEventListener('deviceorientation', handleMotion); }
+                    }).catch(console.error);
+            } else {
+                window.addEventListener('deviceorientation', handleMotion);
+            }
+            document.body.removeEventListener('click', requestSensor);
+        });
+
+        function handleMotion(event) {
+            const tiltX = event.gamma * 0.55; 
+            const tiltY = (event.beta - 45) * 0.55; 
+            bg.style.transform = `translate(${tiltX}px, ${tiltY}px)`;
+        }
+    </script>
 </body>
 </html>
