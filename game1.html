@@ -133,7 +133,7 @@
 
             if (velocity > 1.5) player.style.transform = "rotate(12deg)";
 
-            if (playerTop > 325 || playerTop < 0) {
+            if (playerTop > 322 || playerTop < 0) {
                 endGame(false);
                 return;
             }
@@ -169,12 +169,16 @@
                     continue;
                 }
 
-                if (p.x > 15 && p.x < 85) { 
-                    if (playerTop + 6 < p.topHeight) {
+                // 🎯 ФІКС ФАНТОМНИХ ЗАЧЕПІВ під мобільне поле 340px
+                // Рахуємо дотик суворо коли перешкода знаходиться в межах від 40px до 85px (де летить Женька)
+                if (p.x > 40 && p.x < 85) { 
+                    // Перевірка верхньої труби (додали буфер безпеки +12 пікселів)
+                    if (playerTop + 12 < p.topHeight) {
                         endGame(false);
                         return;
                     }
-                    if (playerTop + 52 > 380 - p.bottomHeight) {
+                    // Перевірка нижньої труби (додали буфер безпеки зрізу ніг -12 пікселів)
+                    if (playerTop + 46 > 380 - p.bottomHeight) {
                         endGame(false);
                         return;
                     }
