@@ -105,6 +105,7 @@
             box-shadow: 0 0 25px #2ecc71, inset 0 0 10px rgba(255,255,255,0.3);
         }
 
+        /* 🌈 Оновлена неонова контурна кнопка ПРО СЕБЕ */
         .btn-lgbt {
             border: 2px solid #e67e22;
             box-shadow: 0 0 10px rgba(230, 126, 34, 0.35);
@@ -179,12 +180,13 @@
     <div class="main-card">
         <h1 class="question-text">Нащо ти тут?</h1>
         <div class="buttons-group">
-            <!-- 🔴 Червона кнопка тепер викликає розумну функцію переходу -->
             <button class="btn btn-red" onclick="openInstagram()">Познайомитись</button>
-            
             <a href="https://npu.gov.ua" target="_blank" class="btn btn-blue">Маєш претензії?</a>
             <button class="btn btn-green" onclick="openBanka()">Допомога бідним</button>
-            <a href="./storinka2.html" class="btn btn-lgbt">Я Ярик</a>
+            
+            <!-- 📚 НОВА КНОПКА З ПЕРЕХОДОМ НА ВІКІПЕДІЮ ПРО СЕБЕ -->
+            <a href="./o-mene.html" class="btn btn-lgbt">Про себе</a>
+            
             <a href="./gra.html" class="btn btn-game">Зіграти в гру 🕹️</a>
         </div>
     </div>
@@ -200,20 +202,11 @@
         const bg = document.getElementById('shakingBg');
         const modal = document.getElementById('bankaModal');
 
-        // 🔥 НАДІЙНИЙ ПРЯМИЙ ПЕРЕХІД В INSTAGRAM ДЛЯ СМАРТФОНІВ
         function openInstagram() {
-            // Веб-адреса як резервний варіант
             const webUrl = "https://instagram.com";
-            // Пряма внутрішня команда для відкриття додатку
             const appUrl = "instagram://user?username=yeuhen.y";
-            
-            // Спершу намагаємося примусово запустити мобільний додаток
             window.location.href = appUrl;
-            
-            // Якщо за 400 мілісекунд додаток не відкрився (наприклад, це ПК), відкриваємо звичайну вкладку браузера
-            setTimeout(() => {
-                window.open(webUrl, '_blank');
-            }, 400);
+            setTimeout(() => { window.open(webUrl, '_blank'); }, 400);
         }
 
         function openBanka() { modal.style.display = 'flex'; }
