@@ -5,47 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-select=no">
     <title>Летючий Женька 🕹️</title>
     <style>
-        body {
-            background-color: #111111; color: white; font-family: 'Segoe UI', Arial, sans-serif;
-            margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; overflow: hidden; user-select: none; -webkit-user-select: none;
-        }
-        h1 { margin: 0 0 5px 0; font-size: 22px; text-transform: uppercase; letter-spacing: 1px; }
-        .score-box { font-size: 18px; font-weight: bold; margin-bottom: 15px; color: #f1c40f; }
-        #gameArea {
-            width: 100%; max-width: 340px; height: 380px; position: relative; background-color: #000000; 
-            background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('game-bg..png'), url('game-bg.png'); 
-            background-size: cover; background-repeat: no-repeat; background-position: center;
-            border: 3px solid #ff9900; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.7); overflow: hidden;
-        }
-        #player {
-            width: 45px; height: 58px; position: absolute; top: 150px; left: 40px;
-            background-image: url('jenia-face.png'); background-size: contain; background-repeat: no-repeat; background-position: center; z-index: 10; transition: transform 0.1s ease;
-        }
-        .pipe { position: absolute; width: 40px; background-image: url('prepyna.png'); background-size: contain; background-repeat: repeat-y; z-index: 5; }
-        .pipe-top { transform: rotate(180deg); }
-        .jump-btn {
-            width: 100%; max-width: 340px; background: linear-gradient(135deg, #ff4757, #ff6b81);
-            color: white; border: none; padding: 16px; font-size: 18px; font-weight: bold;
-            border-radius: 14px; margin-top: 15px; box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4); text-transform: uppercase; letter-spacing: 1px; cursor: pointer;
-        }
-        .jump-btn:active { transform: scale(0.97); }
-        .modal-text { display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.95); padding: 20px; border-radius: 16px; text-align: center; z-index: 20; width: 85%; }
-        #gameOverText { border: 2px solid #ff4757; }
-        #gameOverText h2 { color: #ff4757; margin: 0 0 10px 0; font-size: 22px; }
-        #winOverText { border: 2px solid #2ecc71; }
-        #winOverText h2 { color: #2ecc71; margin: 0 0 10px 0; font-size: 22px; }
-        .modal-text p { margin: 0; font-size: 13px; color: #aaa; }
-        .btn-back { display: inline-block; background: #222; color: white; padding: 10px 25px; text-decoration: none; border-radius: 12px; font-weight: bold; margin-top: 15px; transition: 0.2s; border: 1px solid #444; font-size: 13px; }
-        .btn-back:hover { background: #333; }
+        :root{ --bg:#f9f6f0; --accent:#d9732b; --danger:#c74747; --ok:#2e8a5d; --muted:#6f6b61; --text:#26221d }
+        *{box-sizing:border-box}
+        body{background:linear-gradient(180deg,#fbf4e9,#f3e8da);color:var(--text);font-family:'Segoe UI',Arial,sans-serif;margin:0;padding:14px;display:flex;flex-direction:column;align-items:center;min-height:100vh;}
+        h1{margin:0 0 6px 0;font-size:20px;text-transform:uppercase;letter-spacing:1px;color:var(--text)}
+        .topbar{width:100%;max-width:420px;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+        .score-box{font-size:16px;font-weight:700;color:var(--accent)}
+        #controls{display:flex;gap:8px}
+        .icon-btn{background:rgba(255,255,255,0.72);border:1px solid rgba(0,0,0,0.08);padding:8px;border-radius:10px;color:var(--text);cursor:pointer;backdrop-filter:blur(2px)}
+
+        #gameArea{width:100%;max-width:420px;height:420px;position:relative;background:linear-gradient(180deg,rgba(255,255,250,0.96),rgba(238,224,196,0.95));border-radius:16px;box-shadow:0 18px 55px rgba(155,116,72,0.14);overflow:hidden;border:none}
+        #bgCanvas{position:absolute;inset:0;z-index:0}
+        #fxCanvas{position:absolute;inset:0;z-index:8;pointer-events:none}
+        #player{width:44px;height:56px;position:absolute;top:150px;left:34px;background-image:url('jenia-face.png');background-size:100% 100%;background-repeat:no-repeat;background-position:center;z-index:12;border-radius:12px;padding:0;background-color:transparent;box-shadow:0 18px 34px rgba(223,178,115,0.18);filter:contrast(115%) saturate(105%);transition:transform 120ms linear}
+        .pipe{position:absolute;width:32px;background-image:url('prepyna.png');background-size:contain;background-repeat:repeat-y;z-index:6;opacity:0.92}
+        .pipe-top{transform:rotate(180deg)}
+
+        .start-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:18;background:linear-gradient(180deg,rgba(0,0,0,0.25),rgba(0,0,0,0.45));backdrop-filter:blur(4px)}
+        .start-card{background:rgba(10,10,12,0.8);padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.04);text-align:center}
+        .start-btn{background:linear-gradient(90deg,var(--accent),#ffb74d);padding:12px 18px;border-radius:10px;border:none;color:#111;font-weight:800;cursor:pointer}
+
+        .modal-text{display:none;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(24,24,24,0.94);padding:24px 24px 20px 24px;border-radius:18px;text-align:center;z-index:20;width:88%;border:1px solid rgba(255,255,255,0.12);box-shadow:0 24px 60px rgba(0,0,0,0.28)}
+        .modal-text h2{margin:0 0 10px 0;font-size:24px;color:#fff;text-shadow:0 2px 16px rgba(0,0,0,0.35)}
+        .modal-text p{margin:0;color:#ddd;line-height:1.5;font-size:15px}
+        .btn-back{display:inline-block;background:#1f1f1f;color:white;padding:12px 20px;text-decoration:none;border-radius:12px;font-weight:700;margin-top:16px;border:1px solid rgba(255,255,255,0.12)}
+
+        .jump-btn{width:100%;max-width:420px;background:linear-gradient(135deg,#ff6b00,#ff9900);color:#111;border:none;padding:14px;border-radius:12px;margin-top:12px;font-weight:800;cursor:pointer}
+        .jump-btn:active{transform:scale(0.98)}
+
+        @media (max-width:460px){#gameArea{height:360px} #player{left:28px}}
     </style>
 </head>
 <body>
 
     <h1>Втримай Женьку! 🚀</h1>
-    <div class="score-box">Рахунок: <span id="score">0</span> / 15</div>
 
-    <div id="gameArea" onclick="flap()">
+    <div id="gameArea">
+        <canvas id="bgCanvas"></canvas>
+        <canvas id="fxCanvas"></canvas>
         <div id="player"></div>
+        <div class="start-overlay" id="startOverlay">
+            <div class="start-card">
+                <div style="font-weight:800;margin-bottom:8px">Летючий Женька</div>
+                <div style="color:var(--muted);font-size:13px;margin-bottom:12px">Тапни або натисни ПРО СТАРТ, щоб почати</div>
+                <button class="start-btn" id="startBtn">Почати ✈️</button>
+            </div>
+        </div>
         <div id="gameOverText" class="modal-text">
             <h2>ПРИЇХАЛИ! 🛑</h2>
             <p>Тапни по великій кнопці знизу, щоб літати знову</p>
@@ -57,6 +62,14 @@
         </div>
     </div>
 
+    <div class="topbar" style="max-width:420px;width:100%">
+        <div style="display:flex;gap:12px;align-items:center">
+            <div class="score-box">Рахунок: <span id="score">0</span> / 20</div>
+            <div style="color:var(--muted);font-weight:700">Рівень: <span id="level">1</span></div>
+        </div>
+        <div id="controls"><button id="muteBtn" class="icon-btn">🔈</button></div>
+    </div>
+    <audio id="bgMusic" src="ebash.mp3" loop preload="auto"></audio>
     <button class="jump-btn" onclick="event.stopPropagation(); flap()">СТРИБОК! 🚀</button>
     <a href="./gra.html" class="btn-back">← Назад до меню</a>
 
@@ -78,7 +91,15 @@
         let pipes = [];
         let pipeSpeed = 2.8; 
         let spawnTimer = 0;
-
+        let isStarted = false;
+        let isMuted = false;
+        let level = 1;
+        let floatPhase = 0;
+        const levelThresholds = [5, 10, 15, 20];
+        let spawnInterval = 140;
+        const bgMusic = document.getElementById('bgMusic');
+        bgMusic.volume = 0.45;
+        let bgPlaying = false;
         document.addEventListener('keydown', function(e) {
             if (e.code === 'Space') {
                 e.preventDefault();
@@ -86,22 +107,34 @@
             }
         });
 
+        // pointer/touch to flap
+        gameArea.addEventListener('pointerdown', (e)=>{ e.preventDefault(); if(!isStarted) startGame(); flap(); });
+        document.getElementById('startBtn').addEventListener('click', ()=>{ startGame(); flap(); });
+        document.getElementById('muteBtn').addEventListener('click', ()=>{ 
+            isMuted = !isMuted; 
+            document.getElementById('muteBtn').textContent = isMuted? '🔇':'🔈'; 
+            if (isMuted) stopBgm(); else startBgm();
+        });
+
         function flap() {
             if (isGameOver) { resetGame(); return; }
             velocity = jumpForce;
             player.style.transform = "rotate(-12deg)";
+            if (!bgPlaying && !isMuted) startBgm();
         }
 
         function createPipe() {
             let areaWidth = gameArea.clientWidth;
-            const gap = 145; 
+            const gap = Math.max(90, 145 - (level - 1) * 22);
             const minHeight = 40;
             const maxHeight = 380 - gap - minHeight;
             const topHeight = Math.floor(Math.random() * (maxHeight - minHeight + 1)) + minHeight;
             const bottomHeight = 380 - gap - topHeight;
 
+            const pipeWidth = 32;
             const pipeTop = document.createElement('div');
             pipeTop.className = 'pipe pipe-top';
+            pipeTop.style.width = pipeWidth + 'px';
             pipeTop.style.height = topHeight + 'px';
             pipeTop.style.top = '0px';
             pipeTop.style.left = areaWidth + 'px';
@@ -109,19 +142,27 @@
 
             const pipeBottom = document.createElement('div');
             pipeBottom.className = 'pipe';
+            pipeBottom.style.width = pipeWidth + 'px';
             pipeBottom.style.height = bottomHeight + 'px';
             pipeBottom.style.bottom = '0px';
             pipeBottom.style.left = areaWidth + 'px';
             gameArea.appendChild(pipeBottom);
 
-            pipes.push({
+            const pipe = {
                 topElement: pipeTop,
                 bottomElement: pipeBottom,
                 x: areaWidth,
+                width: pipeWidth,
                 passed: false,
                 topHeight: topHeight,
-                bottomHeight: bottomHeight
-            });
+                bottomHeight: bottomHeight,
+                offsetY: 0,
+                oscillate: level > 1,
+                phase: Math.random() * 1200,
+                oscAmplitude: level === 3 ? 22 : 12
+            };
+
+            pipes.push(pipe);
         }
 
         function updateGame() {
@@ -130,19 +171,24 @@
             velocity += gravity;
             playerTop += velocity;
             player.style.top = playerTop + 'px';
+            floatPhase += 0.08;
+            const floatOffset = Math.sin(floatPhase) * Math.max(0, 3 - Math.abs(velocity));
+            const rotation = velocity > 1.5 ? 12 : (velocity < -0.75 ? -12 : 0);
+            player.style.transform = `translateY(${floatOffset}px) rotate(${rotation}deg)`;
 
-            if (velocity > 1.5) player.style.transform = "rotate(12deg)";
-
-            if (playerTop > 322 || playerTop < 0) {
+            if (playerTop > 330 || playerTop < -10) {
                 endGame(false);
                 return;
             }
 
             spawnTimer++;
-            if (spawnTimer >= 140) { 
+            if (spawnTimer >= spawnInterval) { 
                 createPipe();
                 spawnTimer = 0;
             }
+
+            // particle trail
+            drawTrail();
 
             for (let i = pipes.length - 1; i >= 0; i--) {
                 let p = pipes[i];
@@ -154,12 +200,13 @@
                     p.passed = true;
                     score++;
                     scoreDisplay.innerText = score;
+                    checkLevelUp();
                     
-                    if (score >= 15) {
+                    if (score >= 20) {
                         endGame(true);
                         return;
                     }
-                    if (pipeSpeed < 5) pipeSpeed += 0.1; 
+                    if (pipeSpeed < 5.8) pipeSpeed += 0.13;
                 }
 
                 if (p.x < -45) {
@@ -169,20 +216,34 @@
                     continue;
                 }
 
-                // 🎯 ФІКС ФАНТОМНИХ ЗАЧЕПІВ під мобільне поле 340px
-                // Рахуємо дотик суворо коли перешкода знаходиться в межах від 40px до 85px (де летить Женька)
-                if (p.x > 40 && p.x < 85) { 
-                    // Перевірка верхньої труби (додали буфер безпеки +12 пікселів)
-                    if (playerTop + 12 < p.topHeight) {
-                        endGame(false);
-                        return;
-                    }
-                    // Перевірка нижньої труби (додали буфер безпеки зрізу ніг -12 пікселів)
-                    if (playerTop + 46 > 380 - p.bottomHeight) {
+                // moving pipes for higher levels
+                if (p.oscillate) {
+                    p.offsetY = Math.sin((Date.now() + p.phase) / 600) * p.oscAmplitude;
+                } else {
+                    p.offsetY = 0;
+                }
+                p.topElement.style.transform = `translateY(${p.offsetY}px)`;
+                p.bottomElement.style.transform = `translateY(${p.offsetY}px)`;
+                const playerHit = {
+                    left: 34 + 10,
+                    right: 34 + 44 - 10,
+                    top: playerTop + 12 + floatOffset,
+                    bottom: playerTop + 56 - 12 + floatOffset
+                };
+                const pipeHit = {
+                    left: p.x + 8,
+                    right: p.x + p.width - 8,
+                    topBottom: p.topHeight + p.offsetY - 6,
+                    bottomTop: 380 - p.bottomHeight + p.offsetY + 6
+                };
+
+                if (playerHit.right > pipeHit.left && playerHit.left < pipeHit.right) {
+                    if (playerHit.top < pipeHit.topBottom || playerHit.bottom > pipeHit.bottomTop) {
                         endGame(false);
                         return;
                     }
                 }
+
             }
         }
 
@@ -194,16 +255,20 @@
             } else {
                 gameOverText.style.display = 'block';
             }
+            playHitSound();
         }
 
         function resetGame() {
             isGameOver = false;
             score = 0;
+            level = 1;
             playerTop = 150;
             velocity = 0;
             pipeSpeed = 2.8;
             spawnTimer = 0;
+            spawnInterval = 140;
             scoreDisplay.innerText = score;
+            document.getElementById('level').innerText = level;
             gameOverText.style.display = 'none';
             winOverText.style.display = 'none';
             player.style.top = '150px';
@@ -215,10 +280,92 @@
             });
             pipes = [];
 
-            gameInterval = setInterval(updateGame, 20);
+            // show start overlay
+            document.getElementById('startOverlay').style.display = 'flex';
+            isStarted = false;
         }
 
-        gameInterval = setInterval(updateGame, 20);
+        // Graphics: fx canvas for trail
+        const fxCanvas = document.getElementById('fxCanvas'); const fxCtx = fxCanvas.getContext('2d');
+        function resizeCanvas(){ const r=gameArea.getBoundingClientRect(); fxCanvas.width = Math.round(r.width); fxCanvas.height = Math.round(r.height); document.getElementById('bgCanvas').width = fxCanvas.width; document.getElementById('bgCanvas').height = fxCanvas.height; }
+        window.addEventListener('resize', resizeCanvas); resizeCanvas();
+
+// Background animation on bgCanvas (light abstract sky)
+         const bgCanvas = document.getElementById('bgCanvas'); const bgCtx = bgCanvas.getContext('2d');
+         let bgTick = 0;
+         function drawBackground(now){
+             bgTick += 0.016;
+             const w = bgCanvas.width, h = bgCanvas.height;
+             bgCtx.clearRect(0,0,w,h);
+
+             const sky = bgCtx.createLinearGradient(0,0,0,h);
+             sky.addColorStop(0, 'rgba(255, 254, 245, 1)');
+             sky.addColorStop(0.48, 'rgba(252, 242, 221, 0.98)');
+             sky.addColorStop(1, 'rgba(235, 217, 183, 0.96)');
+             bgCtx.fillStyle = sky; bgCtx.fillRect(0,0,w,h);
+
+             for(let i=0;i<3;i++){
+                 const y = (Math.sin(bgTick * (0.5 + i*0.17) + i*1.4) * 0.5 + 0.5) * h * 0.75 + 40;
+                 const bandH = 30 + i*10;
+                 const grd = bgCtx.createLinearGradient(0,y-bandH,0,y+bandH);
+                 grd.addColorStop(0, 'rgba(255,255,255,0)');
+                 grd.addColorStop(0.44, 'rgba(255, 255, 255, 0)');
+                 grd.addColorStop(0.55, 'rgba(245, 211, 175, 0.16)');
+                 grd.addColorStop(1, 'rgba(255,255,255,0)');
+                 bgCtx.fillStyle = grd; bgCtx.fillRect(0,y-bandH,w,bandH*2);
+             }
+
+             bgCtx.fillStyle = 'rgba(255,255,255,0.22)';
+             for(let x=0;x<w;x+=96){ const radius = 16 + 4*Math.sin(bgTick + x/80); bgCtx.beginPath(); bgCtx.arc(x + 48, h*0.16 + 30, radius, 0, Math.PI*2); bgCtx.fill(); }
+
+             bgCtx.fillStyle = 'rgba(255,255,255,0.12)';
+             for(let y=0;y<h;y+=40){ bgCtx.fillRect(0,y,w,1); }
+
+             requestAnimationFrame(drawBackground);
+         }
+         requestAnimationFrame(drawBackground);
+
+        const trail = [];
+        function drawTrail(){ fxCtx.clearRect(0,0,fxCanvas.width,fxCanvas.height); trail.push({x:player.offsetLeft+28,y:player.offsetTop+34,life:18,r:Math.random()*3+1}); for(let i=trail.length-1;i>=0;i--){ const t=trail[i]; t.life--; t.y += 0.2; fxCtx.beginPath(); fxCtx.fillStyle = `rgba(255,165,60,${t.life/18})`; fxCtx.arc(t.x,t.y,t.r,0,Math.PI*2); fxCtx.fill(); if(t.life<=0) trail.splice(i,1); } }
+
+        // Audio (WebAudio): fx only; music uses MP3 element
+        const AudioCtx = window.AudioContext||window.webkitAudioContext; const audioCtx = AudioCtx? new AudioCtx(): null;
+
+        function playFlapSound(){ if(isMuted||!audioCtx) return; const o = audioCtx.createOscillator(); const g = audioCtx.createGain(); o.type='triangle'; o.frequency.value=660; g.gain.value=0.05; o.connect(g); g.connect(audioCtx.destination); o.start(); setTimeout(()=>{ g.gain.exponentialRampToValueAtTime(0.0001,audioCtx.currentTime+0.08); try{o.stop();}catch{} },90); }
+        function playHitSound(){ if(isMuted||!audioCtx) return; const b = audioCtx.createBufferSource(); const buffer = audioCtx.createBuffer(1, audioCtx.sampleRate*0.08, audioCtx.sampleRate); const data = buffer.getChannelData(0); for(let i=0;i<data.length;i++) data[i]=(Math.random()*2-1)*Math.exp(-i/1200); b.buffer=buffer; const g=audioCtx.createGain(); g.gain.value=0.09; b.connect(g); g.connect(audioCtx.destination); b.start(); }
+
+        function startBgm(){
+            if (!bgMusic || bgPlaying || isMuted) return;
+            bgMusic.play().catch(()=>{});
+            bgPlaying = true;
+        }
+
+        function stopBgm(){ if (!bgMusic || !bgPlaying) return; bgMusic.pause(); bgPlaying = false; }
+
+        function checkLevelUp(){
+            if (level >= 4) return;
+            const nextThreshold = levelThresholds[level - 1];
+            if (score >= nextThreshold) {
+                levelUp();
+            }
+        }
+
+        function levelUp(){
+            level++;
+            // harder: increase speed and reduce spawn interval
+            pipeSpeed += 0.65;
+            spawnInterval = Math.max(70, spawnInterval - 20);
+            document.getElementById('level').innerText = level;
+            // stronger visual pulse for higher levels
+            const el = document.getElementById('gameArea');
+            el.style.boxShadow = level === 4 ? '0 24px 80px rgba(217,87,27,0.22)' : '0 20px 60px rgba(255,165,60,0.16)';
+            setTimeout(()=>{ el.style.boxShadow = ''; }, 650);
+        }
+
+        function startGame(){ if(!isStarted){ isStarted=true; document.getElementById('startOverlay').style.display='none'; if(audioCtx && audioCtx.state==='suspended') audioCtx.resume().then(()=>{ if(!isMuted) startBgm(); }); else if(!isMuted) startBgm(); gameInterval = setInterval(updateGame,20); } }
+
+        // Initialize paused at start
+        resetGame();
     </script>
 </body>
 </html>
