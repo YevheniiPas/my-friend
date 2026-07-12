@@ -44,13 +44,7 @@
         <canvas id="bgCanvas"></canvas>
         <canvas id="fxCanvas"></canvas>
         <div id="player"></div>
-        <div class="start-overlay" id="startOverlay">
-            <div class="start-card">
-                <div style="font-weight:800;margin-bottom:8px">Летючий Женька</div>
-                <div style="color:var(--muted);font-size:13px;margin-bottom:12px">Тапни або натисни ПРО СТАРТ, щоб почати</div>
-                <button class="start-btn" id="startBtn">Почати ✈️</button>
-            </div>
-        </div>
+        <!-- start overlay removed — game will auto-start -->
         <div id="gameOverText" class="modal-text">
             <h2>ПРИЇХАЛИ! 🛑</h2>
             <p>Тапни по великій кнопці знизу, щоб літати знову</p>
@@ -70,7 +64,7 @@
         <div id="controls"><button id="muteBtn" class="icon-btn">🔈</button></div>
     </div>
     <audio id="bgMusic" src="ebash.mp3" loop preload="auto"></audio>
-    <button class="jump-btn" onclick="event.stopPropagation(); flap()">СТРИБОК! 🚀</button>
+    <button class="jump-btn" onclick="event.stopPropagation(); if(!isStarted) startGame(); flap()">СТРИБОК! 🚀</button>
     <a href="./gra.html" class="btn-back">← Назад до меню</a>
 
     <script>
@@ -103,13 +97,14 @@
         document.addEventListener('keydown', function(e) {
             if (e.code === 'Space') {
                 e.preventDefault();
+                if(!isStarted) startGame();
                 flap();
             }
         });
 
         // pointer/touch to flap
         gameArea.addEventListener('pointerdown', (e)=>{ e.preventDefault(); if(!isStarted) startGame(); flap(); });
-        document.getElementById('startBtn').addEventListener('click', ()=>{ startGame(); flap(); });
+        // start button removed: game auto-starts
         document.getElementById('muteBtn').addEventListener('click', ()=>{ 
             isMuted = !isMuted; 
             document.getElementById('muteBtn').textContent = isMuted? '🔇':'🔈'; 
@@ -117,7 +112,7 @@
         });
 
         function flap() {
-            if (isGameOver) { resetGame(); return; }
+            if (isGameOver) { resetGame(); startGame(); }
             velocity = jumpForce;
             player.style.transform = "rotate(-12deg)";
             if (!bgPlaying && !isMuted) startBgm();
@@ -280,8 +275,7 @@
             });
             pipes = [];
 
-            // show start overlay
-            document.getElementById('startOverlay').style.display = 'flex';
+            // do not auto-start after reset; wait for player input (flap/tap) to restart
             isStarted = false;
         }
 
@@ -362,10 +356,11 @@
             setTimeout(()=>{ el.style.boxShadow = ''; }, 650);
         }
 
-        function startGame(){ if(!isStarted){ isStarted=true; document.getElementById('startOverlay').style.display='none'; if(audioCtx && audioCtx.state==='suspended') audioCtx.resume().then(()=>{ if(!isMuted) startBgm(); }); else if(!isMuted) startBgm(); gameInterval = setInterval(updateGame,20); } }
+        function startGame(){ if(!isStarted){ isStarted=true; if(audioCtx && audioCtx.state==='suspended') audioCtx.resume().then(()=>{ if(!isMuted) startBgm(); }); else if(!isMuted) startBgm(); clearInterval(gameInterval); gameInterval = setInterval(updateGame,20); } }
 
-        // Initialize paused at start
+        // Initialize and auto-start immediately on page load
         resetGame();
+        startGame();
     </script>
 </body>
 </html>
